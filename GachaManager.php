@@ -1,0 +1,24 @@
+<?php
+require_once("GachaManagerReadFile.php");
+class GachaManager
+{
+	function __construct()
+	{
+		global $postProtocol;
+		$api = new APIMySQL();
+		$rate = $postProtocol->GetGachaRate();
+//		$status = "1";
+		echo"2,";
+
+		switch($rate)
+		{
+			case "normal"://ƒm[ƒ}ƒ‹ƒKƒ`ƒƒ
+			$gacha = new NormalGacha();
+			break;
+			case "specal":
+			$gacha = new SpecalGacha();
+			break;
+		}
+	}
+}
+?>
