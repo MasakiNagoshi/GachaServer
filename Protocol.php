@@ -20,7 +20,7 @@ class RequestGetGachaTicket
 //$normal = ノーマルチケット（int型）
 //$specal = スペシャルチケット（int型）
 ///////////////////////////////////////
-class ResponseGetGachTicket
+class ResponseGetGachaTicket
 {
 	public $userId;
 	public $normal;

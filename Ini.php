@@ -15,8 +15,11 @@
 	}
 	else if($_POST["status"] == "1")
 	{
-		require_once("GetAllNumbers.php");
-		$test = new GetAllNumbers();
+		require_once("GetRequest.php");
+		require_once("MySQLSetting.php");
+		require_once("APIServer.php");
+		require_once("Protocol.php");
+		$test = new GetRequest();
 	}
 	
 	else if($_POST["status"] == "3")

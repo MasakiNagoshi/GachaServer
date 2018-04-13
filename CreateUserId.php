@@ -30,8 +30,8 @@ class CreateUser
 	{
 		
 		$this->CreateUser();
-		//$this->InsertGachaLogin();
-		//$this->InsertGachaTicket();
+		$this->InsertGachaLogin();
+		$this->InsertGachaTicket();
 	}
 	private function InsertGachaTicket()
 	{

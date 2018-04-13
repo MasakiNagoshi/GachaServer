@@ -10,6 +10,7 @@ class APIMySQL
 		$sql ="UPDATE GachaUser SET getnumbers = '$param->getNumbers' WHERE id = '$param->userId'";
 		$result = $this->QueryExecute($mysqli, $sql);
 	}
+
 	function RequestGetUserDictionary($param,$mysqli)
 	{
 		$sql = "SELECT * FROM GachaUser WHERE id = '$param->userId'";
@@ -37,7 +38,6 @@ class APIMySQL
 	{
 		$sql = "INSERT INTO GachaTicket(id) VALUES('$param->userId')";
 		$result = $this->QueryExecute($mysqli,$sql);
-		var_dump($result);
 	}
 	
 	function RequestInsertGachaLogin($param,$mysqli)
@@ -60,13 +60,13 @@ class APIMySQL
 		return $response;			
 	}
 	
-	function RequestUpdateUserLogin($param,$mysqli)
+	function RequestUpdateGachaLogin($param,$mysqli)
 	{
 		$sql = "UPDATE GachaLogin SET islogin = '$param->isLogin' WHERE id = '$param->userId'";
 		$result = $this->QueryExecute($mysqli,$sql);		
 	}
 		
-	function RequestGetUserTicket($param,$mysqli)
+	function RequestGetGachaTicket($param,$mysqli)
 	{
 		$sql = "SELECT * FROM GachaTicket WHERE id  = '$param->userId'";	
 		$result = $this->QueryExecute($mysqli,$sql);
@@ -79,8 +79,8 @@ class APIMySQL
 		}
 		$result->close();
 		return $response;			
-
 	}	
+
 	function RequestUpdateGachaTicket($param,$mysqli)
 	{
 
