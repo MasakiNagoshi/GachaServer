@@ -60,7 +60,6 @@ class SpecalGacha extends GachaBase
 			break;
 		}
 		echo",";
-
 	}
 
 }

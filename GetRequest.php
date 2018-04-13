@@ -2,9 +2,9 @@
 require_once("OutPut.php");
 class GetRequest extends OutPut
 {
-	private $api;
-	private $post;
-	private $mysqli;
+	private $api;//APIMySQLクラス
+	private $post;//PostProtocolクラス
+	private $mysqli;//mysqliオブジェクト型
 
 	function __construct()
 	{
@@ -39,6 +39,9 @@ class GetRequest extends OutPut
 		}
 	}
 	
+	///////////////////////////////////////
+	//ユーザーの図鑑情報を取得する処理
+	////////////////////////////////////////
 	private function GetUserDictionary()
 	{
 		$param = new RequestGetUserDictionary();
@@ -52,20 +55,19 @@ class GetRequest extends OutPut
 		$param = new RequestGetUserLogin();
 		$param->userId = $this->post->GetUserId();
 		$response = $this->api->RequestGetUserLogin($param,$this->mysqli);
-		$output = "7," . $response->isLogin;
 		if($response->isLogin == false)
 		{
-		$param = new RequestUpdateGachaLogin();
-		$param->userId = $this->post->GetUserId();
-		$param->isLogin = true;
-		$this->api->RequestUpdateGachaLogin($param,$this->mysqli);
+			$this->UpdateLogin();
 		}
-		echo$output;
+		$this->OutputLogin($response);
 	}
 	
 	private function UpdateLogin()
 	{
-
+		$param = new RequestUpdateGachaLogin();
+		$param->userId = $this->post->GetUserId();
+		$param->isLogin = true;
+		$this->api->RequestUpdateGachaLogin($param,$this->mysqli);
 	}
 
 	private function GetTicket()
@@ -73,7 +75,7 @@ class GetRequest extends OutPut
 		$param = new RequestGetGachaTicket();
 		$param->userId = $this->post->GetUserId();
 		$response = $this->api->RequestGetGachaTicket($param,$this->mysqli);
-		echo "5,". "n" .":" .$response->normal ."," . "s" . ":" . $response->specal;
+		$this->OutputTicket($response);
 	}
 	
 }

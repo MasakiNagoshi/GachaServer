@@ -7,7 +7,9 @@
 //if($_SERVER['REQUEST_METHOD'] == "POST")
 //{
 	require_once("IniReadFile.php");
+	require_once("ErrorCheck.php");
 	$post = new PostProtocol();
+	$error = new ErrorCheck();
 	if($_POST["status"] == "0")
 	{
 		require_once("CreateUserId.php");

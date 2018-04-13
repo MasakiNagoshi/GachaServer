@@ -1,16 +1,25 @@
 <?php
-//require_once("MySQLSetting.php");
+////////////////////////////////////////
+//製作者　名越大樹
+//MySQLのクエリを実行するクラス
+////////////////////////////////////////
 
 $apiMySQL = new APIMySQL();
 
 class APIMySQL
 {
+	/////////////////////////////////////////////////
+	//排出したキャラクターの更新をする処理
+	/////////////////////////////////////////////////
 	function RequestUpdateEmmisionCharacter($param, $mysqli)
 	{
 		$sql ="UPDATE GachaUser SET getnumbers = '$param->getNumbers' WHERE id = '$param->userId'";
 		$result = $this->QueryExecute($mysqli, $sql);
 	}
 
+	//////////////////////////////////////////
+	//取得しているユーザーの図鑑を取得する処理
+	//////////////////////////////////////////
 	function RequestGetUserDictionary($param,$mysqli)
 	{
 		$sql = "SELECT * FROM GachaUser WHERE id = '$param->userId'";
@@ -28,24 +37,32 @@ class APIMySQL
 			$getnumbers = $row["getnumbers"];
 			$ret .= $getnumbers.$com;
 			$chachedata += $ret;
-		}
+		}		
 		$result->close();
-
 		return $response;
 	}
-
+	
+	//////////////////////////////////////////////////
+	//チケットの初期登録に関する処理
+	//////////////////////////////////////////////////
 	function RequestInsertGachaTicket($param, $mysqli)
 	{
-		$sql = "INSERT INTO GachaTicket(id) VALUES('$param->userId')";
+		$sql = "INSERT INTO GachaTicket(id,normal,specal) VALUES('$param->userId',0,0)";
 		$result = $this->QueryExecute($mysqli,$sql);
 	}
 	
+	///////////////////////////////////////////////
+	//ログインの初期登録に関する処理
+	///////////////////////////////////////////////
 	function RequestInsertGachaLogin($param,$mysqli)
 	{
-		$sql = "INSERT INTO GachaLogin(id) VALUES('$param->userId')";
+		$sql = "INSERT INTO GachaLogin(id,islogin) VALUES('$param->userId',false)";
 		$this->QueryExecute($mysqli,$sql);
 	}
 	
+	////////////////////////////////////////////////
+	//ユーザーのログイン状況に関する処理
+	////////////////////////////////////////////////
 	function RequestGetUserLogin($param,$mysqli)
 	{
 		$sql = "SELECT * FROM GachaLogin WHERE id = '$param->userId'";
@@ -60,12 +77,18 @@ class APIMySQL
 		return $response;			
 	}
 	
+	//////////////////////////////////////////////
+	//ログイン状況を更新する処理
+	//////////////////////////////////////////////
 	function RequestUpdateGachaLogin($param,$mysqli)
 	{
 		$sql = "UPDATE GachaLogin SET islogin = '$param->isLogin' WHERE id = '$param->userId'";
 		$result = $this->QueryExecute($mysqli,$sql);		
 	}
-		
+	
+	////////////////////////////////////////////
+	//ガチャチケットを取得する処理
+	////////////////////////////////////////////
 	function RequestGetGachaTicket($param,$mysqli)
 	{
 		$sql = "SELECT * FROM GachaTicket WHERE id  = '$param->userId'";	
@@ -80,18 +103,36 @@ class APIMySQL
 		$result->close();
 		return $response;			
 	}	
-
+	
+	////////////////////////////////////////
+	//ガチャチケットの更新に関する処理
+	////////////////////////////////////////
 	function RequestUpdateGachaTicket($param,$mysqli)
 	{
-
-	}
-	
-	function RequestInsertUserId($param,$mysqli)
-	{
-		$sql = "INSERT INTO GachaUser(id,name) VALUES('$param->userId','$param->userName')";
+		$sql = "UPDATE GachaTicket SET normal = '$param->normal' , specal = '$param->specal' WHERE id = '$param->userId'";
 		$result = $this->QueryExecute($mysqli,$sql);
 	}
-
+	
+	//////////////////////////////////////////////
+	//ユーザーの名前とIDの初期登録に関する処理
+	//////////////////////////////////////////////
+	function RequestInsertUserId($param,$mysqli)
+	{
+		$sql = "INSERT INTO GachaUser(id,name,getnumbers) VALUES('$param->userId','$param->userName','0')";
+		$result = $this->QueryExecute($mysqli,$sql);
+	}
+	
+	//////////////////////////////////////////////
+	//////////////////////////////////////////////
+	function ResetLogin($mysqli)
+	{
+		$sql = "UPDATE GachaLogin SET islogin = false";
+		$result = $this->QueryExecute($mysqli,$sql);
+	}
+	
+	///////////////////////////////////
+	//SQLを実行する処理
+	///////////////////////////////////
 	function QueryExecute($mysqli, $sql)
 	{
 		if($result = $mysqli->query($sql))

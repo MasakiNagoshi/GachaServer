@@ -12,21 +12,91 @@ class GachaBase
 	private $emmisionCharacters;
 	private $gachaLimit;
 	private $api;
+	private $errorCheck;
+	private $error;
+	private $getNumbers;
+	private $normalTicket;
+	private $specalTicket;
 	function __construct($gachaStatus)
 	{
 		$this->Ini();
-		switch($gachaStatus)
+		$this->ErrorCheck();
+		if($this->error != 0)
 		{
-			case 1:
-			$this->rateArray = FileRead("Info/NormalRate.txt",",");
-			break;
-			case 2:
-			$this->ReadSpecalGacha();
-			break;
+			switch($gachaStatus)
+			{
+				case 1:
+				$this->ReadNormalGacha();
+				break;
+				//case 2:
+				//$this->ReadSpecalGacha();
+				//break;
+			}
 		}
 		//$this->EmmishionCharacter();
 	}
-
+	
+	private function ErrorCheck()
+	{
+		$result = $this->GetGachaTicket();
+		$errorresult;
+		switch($this->post->GetGachaRate())
+		{
+			case"normal":			
+			$errorresult = $this->errorCheck->UseNormalGachaTicket($result);
+			break;
+		}
+		if($errorresult == 0)
+		{
+			$this->error = 0;
+		//	$this->errorCheck->ErrorOutput();
+		//	return false;			
+		}
+		else
+		{	
+			$this->normalTicket = intval($result->normal);
+			$this->specalTicket = intval($result->specal);
+			$this->UpdateGachaTicket();
+			$result = $this->GetDictionary();
+			$this->getNumbers =  split('/', $result->getNumbers);
+			$this->error = 1;
+		}
+//		return 1;
+	}
+	
+	private function UpdateGachaTicket()
+	{
+		$param = new RequestUpdateGachaTicket();
+		switch($this->post->GetGachaRate())
+		{
+			case "normal":
+			$param->normal = $this->normalTicket - $this->gachaLimit;
+			$param->specal = $this->specalTicket;
+			break;
+		}
+		$param->userId = $this->post->GetUserId();
+		$this->api->RequestUpdateGachaTicket($param,$this->mysqli);
+	}
+	
+	protected function CheckDuplication($emmision)
+	{
+		$maxIndex = count($this->getNumbers);
+		for($count = 0; $count < $maxIndex - 1; $count++)
+		{
+			if($this->getNumbers[$count] == $emmision)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private function ReadNormalGacha()
+	{
+		$nCharacters = FileRead("Info/NCharacters.txt",",");
+		$this->emmisionCharacters->SetNormalCharacteres($nCharacters);
+	}
+	
 	private function ReadSpecalGacha()
 	{
 		 $rCharacters = FileRead("Info/RCharacters.txt",",");
@@ -36,14 +106,17 @@ class GachaBase
 		 $this->emmisionCharacters->SetSuperRareCharacters($srCharacters);
 		 $this->emmisionCharacters->SetSuperRareCharacters($ssrCharacters);
 	}
+	
 	protected function GetLimit()
 	{
 		return $this->gachaLimit;
 	}
+	
 	protected function GetEmmisionCharacters()
 	{
 		return $this->emmisionCharacters;
 	}
+	
 	protected function GetOutPut()
 	{
 		return $this->output;
@@ -94,6 +167,15 @@ class GachaBase
 		$response = $this->api->RequestGetUserDictionary($param,$this->mysqli);
 		$this->UpdateEmmiision($response);	
 	}
+	
+	private function GetDictionary()
+	{
+		$param = new RequestGetUserDictionary();
+		$param->userId = $this->post->GetUserId();
+		$response = $this->api->RequestGetUserDictionary($param,$this->mysqli);		
+		return $response;
+	}
+	
 	protected function UpdateEmmiision($response)
 	{
 		$response = $this->SortUpdateEmmision($response);
@@ -135,6 +217,8 @@ class GachaBase
 	{
 		global $postProtocol;
 		global $apiMySQL;
+		global $errorCheck;
+		$this->errorCheck = $errorCheck;
 		$this->api = $apiMySQL;
 		$this->post = $postProtocol;
 		$this->emmisionCharacters = new EmmisionCharacters();
@@ -142,6 +226,14 @@ class GachaBase
 		$this->mysqlInfo = MySQLSetting();
 		$this->mysqlInfo->SetTableName("GachaUser");
 		$this->mysqli = Connect($this->mysqlInfo->GetHostName(), $this->mysqlInfo->GetRoot(), $this->mysqlInfo->GetPassWord(), $this->mysqlInfo->GetDataBase());
+	}
+	
+	private function GetGachaTicket()
+	{		
+		$param = new RequestGetGachaTicket();
+		$param->userId = $this->post->GetUserId();
+		$response = $this->api->RequestGetGachaTicket($param,$this->mysqli);
+		return $response;
 	}
 }
 ?>
