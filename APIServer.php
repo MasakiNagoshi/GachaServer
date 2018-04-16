@@ -56,7 +56,7 @@ class APIMySQL
 	///////////////////////////////////////////////
 	function RequestInsertGachaLogin($param,$mysqli)
 	{
-		$sql = "INSERT INTO GachaLogin(id,islogin) VALUES('$param->userId',false)";
+		$sql = "INSERT INTO GachaLogin(id,islogin,count) VALUES('$param->userId',false,0)";
 		$this->QueryExecute($mysqli,$sql);
 	}
 	
@@ -72,6 +72,7 @@ class APIMySQL
 		{
 			$response->userId = $row["id"];
 			$response->isLogin = $row["islogin"];
+			$response->loginCount = $row["count"];
 		}
 		$result->close();
 		return $response;			

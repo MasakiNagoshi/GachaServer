@@ -55,11 +55,16 @@ class GetRequest extends OutPut
 		$param = new RequestGetUserLogin();
 		$param->userId = $this->post->GetUserId();
 		$response = $this->api->RequestGetUserLogin($param,$this->mysqli);
-		if($response->isLogin == false)
+		if($response->isLogin == false)			
 		{
+			$present = $this->LoginPresent($response);
 			$this->UpdateLogin();
+			$this->OutputLoginPresent($response,$present->GetPresent());
 		}
-		$this->OutputLogin($response);
+		else
+		{
+			$this->OutputLogin($response);
+		}
 	}
 	
 	private function UpdateLogin()
@@ -78,5 +83,11 @@ class GetRequest extends OutPut
 		$this->OutputTicket($response);
 	}
 	
+	private function LoginPresent($response)
+	{
+		require_once("LoginPresent.php");
+		$loginPresent = new LoginPresent($response->loginCount);
+		return $loginPresent;
+	}	
 }
 ?>

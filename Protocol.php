@@ -90,6 +90,7 @@ class ResponseGetUserLogin
 {
 	public $userId;
 	public $isLogin;
+	public $loginCount;
 }
 
 

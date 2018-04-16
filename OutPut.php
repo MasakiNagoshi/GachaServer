@@ -23,6 +23,12 @@ class OutPut
 		echo$output;
 	}
 	
+	protected function OutputLoginPresent($param,$present)
+	{
+		$output = "7," . $param->isLogin . "," .$present;		
+		echo $output;
+	}
+	
 	///////////////////////////////
 	//ガチャチケットの出力に関する処理
 	///////////////////////////////
