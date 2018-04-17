@@ -22,7 +22,6 @@ class ErrorCheck
 			if($intcast - $useTicketCount <= 0)				
 			{
 					$this->error = "e";
-					echo"hage";
 					$result = 0;
 			}
 			return $result;

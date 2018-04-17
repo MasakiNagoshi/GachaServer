@@ -4,10 +4,13 @@
 //MySQLのクエリを実行するクラス
 ////////////////////////////////////////
 
-$apiMySQL = new APIMySQL();
-
 class APIMySQL
 {
+	function __construct()
+	{
+		global $apiMySQL;
+		$apiMySQL = $this;
+	}
 	/////////////////////////////////////////////////
 	//排出したキャラクターの更新をする処理
 	/////////////////////////////////////////////////
@@ -83,7 +86,7 @@ class APIMySQL
 	//////////////////////////////////////////////
 	function RequestUpdateGachaLogin($param,$mysqli)
 	{
-		$sql = "UPDATE GachaLogin SET islogin = '$param->isLogin' WHERE id = '$param->userId'";
+		$sql = "UPDATE GachaLogin SET islogin = '$param->isLogin' , count = '$param->loginCount' WHERE id = '$param->userId'";
 		$result = $this->QueryExecute($mysqli,$sql);		
 	}
 	
@@ -119,7 +122,7 @@ class APIMySQL
 	//////////////////////////////////////////////
 	function RequestInsertUserId($param,$mysqli)
 	{
-		$sql = "INSERT INTO GachaUser(id,name,getnumbers) VALUES('$param->userId','$param->userName','0')";
+		$sql = "INSERT INTO GachaUser(id,name) VALUES('$param->userId','$param->userName')";
 		$result = $this->QueryExecute($mysqli,$sql);
 	}
 	

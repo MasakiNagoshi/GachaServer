@@ -6,9 +6,9 @@ require_once("Protocol.php");
 
 class CreateUser
 {
-	private $mysqli;
-	private $api;
-	private $createid;
+	private $mysqli;//mysqliオブジェクト型
+	private $api;//APIMySQLクラス
+	private $createid;//新規ユーザーのID(string型)
 	
 	function __construct()
 	{
@@ -26,6 +26,10 @@ class CreateUser
 		$this->mysqli = Connect($mysqlinfo->GetHostName(), $mysqlinfo->GetRoot(), $mysqlinfo->GetPassWord(), $mysqlinfo->GetDataBase());
 		$this->api = $apiMySQL;		
 	}
+	
+	///////////////////////////////////
+	//ユーザーの初期登録の処理
+	///////////////////////////////////
 	private function InsertUser()
 	{
 		
@@ -33,6 +37,10 @@ class CreateUser
 		$this->InsertGachaLogin();
 		$this->InsertGachaTicket();
 	}
+	
+	////////////////////////////////////
+	//ガチャチケットの初期登録に関する処理
+	////////////////////////////////////
 	private function InsertGachaTicket()
 	{
 		$param = new RequestInsertGachaTicket();	
@@ -40,12 +48,19 @@ class CreateUser
 		$this->api->RequestInsertGachaTicket($param,$this->mysqli);
 	}
 	
+	///////////////////////////////////
+	//ログイン情報の初期登録に関する処理
+	///////////////////////////////////
 	private function InsertGachaLogin()
 	{
 		$param = new RequestInsertGachaLogin();
 		$param->userId = $this->createid;
 		$this->api->RequestInsertGachaLogin($param,$this->mysqli);
 	}
+	
+	//////////////////////////////////////
+	//新規ユーザーを作成する処理
+	//////////////////////////////////////
 	private function CreateUser()
 	{
 		$this->createid = uniqid();

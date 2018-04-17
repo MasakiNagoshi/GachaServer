@@ -45,21 +45,30 @@ class SpecalGacha extends GachaBase
 		$rateMaxCount = count($emmisionarray);
 		$ran = rand(0,$rateMaxCount -1);
 		$this->PushEmmisonCharacter($emmisionarray[$ran]);
-		echo$emmisionarray[$ran];
-		echo":";
+		$result = $this->CheckDuplication($emmisionarray[$ran]);
+		$duplication;
+		$emmisionrate;
+		if($result)
+		{
+			$duplication = "1";
+		}
+		else
+		{
+			$duplication = "0";			
+		}
 		switch($rate)
 		{
 			case 1:
-			echo"r";
+			$emmisionrate = "r";
 			break;
 			case 2:
-			echo"sr";
+			$emmisionrate = "sr";
 			break;
 			case 3:
-			echo"ssr";
+			$emmisionrate = "ssr";
 			break;
 		}
-		echo",";
+		$this->OutputGacha($emmisionarray[$ran],$emmisionrate,$duplication);
 	}
 
 }

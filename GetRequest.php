@@ -1,5 +1,7 @@
 <?php
 require_once("OutPut.php");
+require_once("UpdatePresent.php");
+
 class GetRequest extends OutPut
 {
 	private $api;//APIMySQLクラス
@@ -50,6 +52,9 @@ class GetRequest extends OutPut
 		$this->OutputDictionary($response);
 	}
 	
+	////////////////////////////////////////
+	//ユーザーのログイン情報を取得する処理
+	////////////////////////////////////////
 	private function GetLogin()
 	{
 		$param = new RequestGetUserLogin();
@@ -58,7 +63,8 @@ class GetRequest extends OutPut
 		if($response->isLogin == false)			
 		{
 			$present = $this->LoginPresent($response);
-			$this->UpdateLogin();
+			$updatepresent = new UpdatePresent($present->GetPresent(),$response->loginCount,$this->mysqli);
+			$this->UpdateLogin($response->loginCount);
 			$this->OutputLoginPresent($response,$present->GetPresent());
 		}
 		else
@@ -67,14 +73,25 @@ class GetRequest extends OutPut
 		}
 	}
 	
-	private function UpdateLogin()
+	//////////////////////////////////////////
+	//ユーザーのログイン情報を更新する処理
+	//////////////////////////////////////////
+	private function UpdateLogin($logincount)
 	{
 		$param = new RequestUpdateGachaLogin();
 		$param->userId = $this->post->GetUserId();
 		$param->isLogin = true;
+		$param->loginCount = $logincount + 1;
+		if($param->loginCount >= 7)
+		{
+			$param->loginCount = 0;
+		}
 		$this->api->RequestUpdateGachaLogin($param,$this->mysqli);
 	}
 
+	///////////////////////////////////////////
+	//ユーザーのチケットの情報を取得する処理
+	///////////////////////////////////////////
 	private function GetTicket()
 	{
 		$param = new RequestGetGachaTicket();
@@ -83,11 +100,14 @@ class GetRequest extends OutPut
 		$this->OutputTicket($response);
 	}
 	
+	//////////////////////////////////////
+	//ログインプレゼントの処理
+	//////////////////////////////////////
 	private function LoginPresent($response)
 	{
 		require_once("LoginPresent.php");
 		$loginPresent = new LoginPresent($response->loginCount);
 		return $loginPresent;
-	}	
+	}
 }
 ?>

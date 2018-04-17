@@ -1,14 +1,22 @@
 <?php
+/////////////////////////////////////////////
+//製作者　名越大樹
+//ノーマルガチャを行うクラス
+/////////////////////////////////////////////
 
 class NormalGacha extends GachaBase
 {
 	private $status = 1;
+	private $rate = "n";
 	function __construct()
 	{
 		parent::__construct($this->status);
-	$this->EmmisionCharacter();
+		$this->EmmisionCharacter();
 	}
 	
+	//////////////////////////////////////
+	//キャラクターを排出する処理
+	//////////////////////////////////////
 	private function EmmisionCharacter()
 	{
 		$limit = $this->GetLimit();
@@ -17,20 +25,19 @@ class NormalGacha extends GachaBase
 		$rateMaxCount = count($emmisionCharacters);
 		for($count = 0;$count < $limit; $count++)
 		{
+			$duplication;
 			$ran = rand(0,$rateMaxCount - 1);
 			$this->PushEmmisonCharacter($emmisionCharacters[$ran]);
 			$result = $this->CheckDuplication($emmisionCharacters[$ran]);
-			echo$emmisionCharacters[$ran];
-			echo":";
-			echo"n:";
 			if($result)
 			{
-				echo"1,";
+				$duplication = "1";
 			}
 			else
 			{
-				echo"0,";
+				$duplication = "0";
 			}
+			$this->OutputGacha($emmisionCharacters[$ran],$this->rate,$duplication);
 		}
 		$this->GetUserDictionary();
 	}

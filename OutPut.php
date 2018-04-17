@@ -23,6 +23,9 @@ class OutPut
 		echo$output;
 	}
 	
+	///////////////////////////////////////
+	//ログインプレゼントを出力関する処理
+	///////////////////////////////////////
 	protected function OutputLoginPresent($param,$present)
 	{
 		$output = "7," . $param->isLogin . "," .$present;		
@@ -35,6 +38,12 @@ class OutPut
 	protected function OutputTicket($param)
 	{
 		echo "5,". "n" .":" .$param->normal ."," . "s" . ":" . $param->specal;
+	}
+	
+	protected function OutputGacha($emmision,$rate,$duplication)
+	{
+		$output =  $emmision . ":" . $rate . ":" . $duplication. ",";
+		echo $output;
 	}
 }
 ?>

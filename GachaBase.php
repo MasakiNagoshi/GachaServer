@@ -1,6 +1,8 @@
 <?php
 
-class GachaBase
+require_once("OutPut.php");
+
+class GachaBase extends OutPut
 {
 	private $rateArray;
 	private $mysqli;
@@ -17,24 +19,41 @@ class GachaBase
 	private $getNumbers;
 	private $normalTicket;
 	private $specalTicket;
+	
 	function __construct($gachaStatus)
 	{
 		$this->Ini();
 		$this->ErrorCheck();
-		if($this->error != 0)
-		{
+//		if($this->error != 0)
+//		{
 			switch($gachaStatus)
 			{
 				case 1:
 				$this->ReadNormalGacha();
 				break;
-				//case 2:
-				//$this->ReadSpecalGacha();
-				//break;
+				case 2:
+				$this->ReadSpecalGacha();
+				break;
 			}
-		}
+//		}
 		//$this->EmmishionCharacter();
 	}
+	
+	private function Ini()
+	{
+		global $postProtocol;
+		global $apiMySQL;
+		global $errorCheck;
+		$this->errorCheck = $errorCheck;
+		$this->api = $apiMySQL;
+		$this->post = $postProtocol;
+		$this->emmisionCharacters = new EmmisionCharacters();
+		$this->gachaLimit = $this->post->GetGachaLimit();
+		$this->mysqlInfo = MySQLSetting();
+		$this->mysqlInfo->SetTableName("GachaUser");
+		$this->mysqli = Connect($this->mysqlInfo->GetHostName(), $this->mysqlInfo->GetRoot(), $this->mysqlInfo->GetPassWord(), $this->mysqlInfo->GetDataBase());
+	}
+	
 	
 	private function ErrorCheck()
 	{
@@ -46,21 +65,21 @@ class GachaBase
 			$errorresult = $this->errorCheck->UseNormalGachaTicket($result);
 			break;
 		}
-		if($errorresult == 0)
-		{
-			$this->error = 0;
+//		if($errorresult == 0)
+//		{
+//			$this->error = 0;
 		//	$this->errorCheck->ErrorOutput();
 		//	return false;			
-		}
-		else
-		{	
+//		}
+//		else
+//		{	
 			$this->normalTicket = intval($result->normal);
 			$this->specalTicket = intval($result->specal);
 			$this->UpdateGachaTicket();
 			$result = $this->GetDictionary();
 			$this->getNumbers =  split('/', $result->getNumbers);
 			$this->error = 1;
-		}
+//		}
 //		return 1;
 	}
 	
@@ -78,6 +97,10 @@ class GachaBase
 		$this->api->RequestUpdateGachaTicket($param,$this->mysqli);
 	}
 	
+	/////////////////////////////////////////////
+	//排出キャラクターが重複しているかを確認する処理
+	//$emmision = 排出キャラクター(string型)
+	/////////////////////////////////////////////
 	protected function CheckDuplication($emmision)
 	{
 		$maxIndex = count($this->getNumbers);
@@ -91,12 +114,18 @@ class GachaBase
 		return false;
 	}
 	
+	//////////////////////////////////////////
+	//ノーマルガチャを行う際のデータを読み込む処理
+	//////////////////////////////////////////
 	private function ReadNormalGacha()
 	{
 		$nCharacters = FileRead("Info/NCharacters.txt",",");
 		$this->emmisionCharacters->SetNormalCharacteres($nCharacters);
 	}
 	
+	/////////////////////////////////////////
+	//ノーマルガチャを行う際のデータを読み込む処理
+	/////////////////////////////////////////
 	private function ReadSpecalGacha()
 	{
 		 $rCharacters = FileRead("Info/RCharacters.txt",",");
@@ -213,20 +242,7 @@ class GachaBase
 		}
 		return $response;
 	}
-	private function Ini()
-	{
-		global $postProtocol;
-		global $apiMySQL;
-		global $errorCheck;
-		$this->errorCheck = $errorCheck;
-		$this->api = $apiMySQL;
-		$this->post = $postProtocol;
-		$this->emmisionCharacters = new EmmisionCharacters();
-		$this->gachaLimit = $this->post->GetGachaLimit();
-		$this->mysqlInfo = MySQLSetting();
-		$this->mysqlInfo->SetTableName("GachaUser");
-		$this->mysqli = Connect($this->mysqlInfo->GetHostName(), $this->mysqlInfo->GetRoot(), $this->mysqlInfo->GetPassWord(), $this->mysqlInfo->GetDataBase());
-	}
+
 	
 	private function GetGachaTicket()
 	{		

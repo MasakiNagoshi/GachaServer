@@ -6,8 +6,11 @@
 
 //if($_SERVER['REQUEST_METHOD'] == "POST")
 //{
+	require_once("GlobalVariable.php");
 	require_once("IniReadFile.php");
 	require_once("ErrorCheck.php");
+
+	$api = new APIMySQL();
 	$post = new PostProtocol();
 	$error = new ErrorCheck();
 	if($_POST["status"] == "0")
@@ -34,4 +37,5 @@
 		$gacha = new GachaManager();
 	}
 //}
+
 ?>

@@ -1,14 +1,17 @@
 <?php
-$postProtocol;
+/////////////////////////////////////////
+//POSTで送られる情報を管理するクラス
+/////////////////////////////////////////
 
 class PostProtocol
 {
-	private $gachaRate;//ガチャの種類
-	private $userId;//ユーザーID
-	private $gachaLimit;//ガチャの回数
-	private $getRequest;//取得するリクエストの種類
-	private $useNormalTicket;//使用したノーマルチケット数
-	private $useSpecalTicket;//使用したスペシャルチケット数
+	private $gachaRate;//ガチャの種類(string型)
+	private $userId;//ユーザーID(string型)
+	private $gachaLimit;//ガチャの回数(int型)
+	private $getRequest;//取得するリクエストの種類(string型)
+	private $useNormalTicket;//使用したノーマルチケット数(string型)
+	private $useSpecalTicket;//使用したスペシャルチケット数(string型)
+	
 	function __construct()
 	{
 		global $postProtocol; 

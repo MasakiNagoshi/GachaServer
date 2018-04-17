@@ -36,6 +36,7 @@ class RequestUpdateGachaLogin
 {
 	public $userId;
 	public $isLogin;
+	public $loginCount;
 }
 
 
@@ -141,33 +142,5 @@ class ResponseUpdateGachaTicket
 		public $normal;
 		public $specal;
 }
-/*
-class OutPutWord
-{
-	const R_RATE = "r";
-	const SR_RATE = "sr";
-	const N_RATE = "n";
-	const SSR_RATE = "ssr";
 
-	function NRate()
-	{
-		return self::N_RATE;
-	}
-	
-	function RRate()
-	{
-		return self::R_RATE;
-	}
-	
-	function SRRate()
-	{
-		return self::SR_RATE;
-	}
-	
-	function SSRRate()
-	{
-		return self::SSR_RATE;
-	}
-}
-*/
 ?>
