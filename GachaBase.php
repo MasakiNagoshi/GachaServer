@@ -1,4 +1,8 @@
 <?php
+//////////////////////////////
+//製作者　名越大樹
+//ガチャの基底クラス
+//////////////////////////////
 
 require_once("OutPut.php");
 
@@ -16,9 +20,9 @@ class GachaBase extends OutPut
 	private $api;
 	private $errorCheck;
 	private $error;
-	private $getNumbers;
-	private $normalTicket;
-	private $specalTicket;
+	private $getNumbers;//ユーザーが取得している図鑑情報(string型)
+	private $normalTicket;//ノーマルチケット数(int型)
+	private $specalTicket;//スペシャルチケット数（int型）
 	
 	function __construct($gachaStatus)
 	{
@@ -171,6 +175,7 @@ class GachaBase extends OutPut
 			$this->emmisionArray[] = $push;
 	}
 
+	/*
 	private function EmmishionCharacter()
 	{
 		global $apiMySQL;
@@ -188,6 +193,7 @@ class GachaBase extends OutPut
 		$this->emmisionCharacter = $this->rateArray[$ran];
 		$this->GetUserDictionary();
 	}
+	*/
 	
 	protected function GetUserDictionary()
 	{

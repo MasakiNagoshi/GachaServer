@@ -1,6 +1,4 @@
 <?php
-require_once("OutPut.php");
-require_once("UpdatePresent.php");
 
 class GetRequest extends OutPut
 {
@@ -106,6 +104,7 @@ class GetRequest extends OutPut
 	private function LoginPresent($response)
 	{
 		require_once("LoginPresent.php");
+		require_once("UpdatePresent.php");
 		$loginPresent = new LoginPresent($response->loginCount);
 		return $loginPresent;
 	}

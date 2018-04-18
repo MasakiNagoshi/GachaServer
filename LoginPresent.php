@@ -1,8 +1,16 @@
 <?php
+////////////////////////////////////
+//製作者　名越大樹
+//ログインボーナスを取得に関するクラス
+////////////////////////////////////
 
 class LoginPresent
 {
-	private $present;
+	private $present;//プレゼント内容(配列string型)
+		
+	///////////////////////
+	//$count = ログイン回数(int型)
+	///////////////////////
 	function __construct($count)
 	{
 		$this->Present($count);

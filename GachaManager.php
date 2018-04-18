@@ -1,13 +1,17 @@
 <?php
-require_once("GachaManagerReadFile.php");
+//////////////////////////////////
+//»ìŽÒ@–¼‰z‘åŽ÷
+//ƒKƒ`ƒƒ‚ðŠÇ—‚·‚éƒNƒ‰ƒX
+//////////////////////////////////
+
 class GachaManager
 {
 	function __construct()
 	{
+		require_once("GachaManagerReadFile.php");
 		global $postProtocol;
 		$api = new APIMySQL();
 		$rate = $postProtocol->GetGachaRate();
-//		$status = "1";
 		echo"2,";
 
 		switch($rate)

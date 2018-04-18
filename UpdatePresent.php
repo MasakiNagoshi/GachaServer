@@ -1,12 +1,16 @@
 <?php
+//////////////////////////////////
+//製作者　名越大樹
+//ログインボーナスの情報をデータベースへ更新するクラス
+//////////////////////////////////
 
 class UpdatePresent
 {
-		private $loginCount;
-		private $present;
-		private $api;
-		private $mysqli;
-		private $post;
+		private $loginCount;//int型
+		private $present;//配列string型
+		private $api;//APIMySQLクラス
+		private $mysqli;//mysqliオブジェクト型
+		private $post;//PostProtocolクラス型
 		
 		function __construct($presentnumber,$logincount,$mysqliobj)
 		{
