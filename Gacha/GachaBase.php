@@ -8,9 +8,6 @@ require_once("OutPut.php");
 
 class GachaBase extends OutPut
 {
-	private $rateArray;
-	private $mysqli;
-	private $mysqlInfo;
 	private $outPutData;
 	private $emmisionCharacter;//排出キャラクター
 	private $emmisionArray;//排出した数
@@ -23,7 +20,7 @@ class GachaBase extends OutPut
 	private $getNumbers;//ユーザーが取得している図鑑情報(string型)
 	private $normalTicket;//ノーマルチケット数(int型)
 	private $specalTicket;//スペシャルチケット数（int型）
-	
+
 	function __construct($gachaStatus)
 	{
 		$this->Ini();
@@ -42,7 +39,7 @@ class GachaBase extends OutPut
 //		}
 		//$this->EmmishionCharacter();
 	}
-	
+
 	private function Ini()
 	{
 		global $postProtocol;
@@ -53,19 +50,16 @@ class GachaBase extends OutPut
 		$this->post = $postProtocol;
 		$this->emmisionCharacters = new EmmisionCharacters();
 		$this->gachaLimit = $this->post->GetGachaLimit();
-		$this->mysqlInfo = MySQLSetting();
-		$this->mysqlInfo->SetTableName("GachaUser");
-		$this->mysqli = Connect($this->mysqlInfo->GetHostName(), $this->mysqlInfo->GetRoot(), $this->mysqlInfo->GetPassWord(), $this->mysqlInfo->GetDataBase());
 	}
-	
-	
+
+
 	private function ErrorCheck()
 	{
 		$result = $this->GetGachaTicket();
 		$errorresult;
 		switch($this->post->GetGachaRate())
 		{
-			case"normal":			
+			case"normal":
 			$errorresult = $this->errorCheck->UseNormalGachaTicket($result);
 			break;
 		}
@@ -73,10 +67,10 @@ class GachaBase extends OutPut
 //		{
 //			$this->error = 0;
 		//	$this->errorCheck->ErrorOutput();
-		//	return false;			
+		//	return false;
 //		}
 //		else
-//		{	
+//		{
 			$this->normalTicket = intval($result->normal);
 			$this->specalTicket = intval($result->specal);
 			$this->UpdateGachaTicket();
@@ -86,21 +80,25 @@ class GachaBase extends OutPut
 //		}
 //		return 1;
 	}
-	
+
 	private function UpdateGachaTicket()
 	{
 		$param = new RequestUpdateGachaTicket();
 		switch($this->post->GetGachaRate())
 		{
 			case "normal":
-			$param->normal = $this->normalTicket - $this->gachaLimit;
+			$param->normal = $this->normalTicket - $this->post->GetUseNormalTicket();
 			$param->specal = $this->specalTicket;
+			break;
+			case "specal":
+			$param->normal = $this->normalTicket;
+			$param->specal = $this->specalTicket - $this->post->GetUseSpecalTicket();
 			break;
 		}
 		$param->userId = $this->post->GetUserId();
-		$this->api->RequestUpdateGachaTicket($param,$this->mysqli);
+		$this->api->RequestUpdateGachaTicket($param);
 	}
-	
+
 	/////////////////////////////////////////////
 	//排出キャラクターが重複しているかを確認する処理
 	//$emmision = 排出キャラクター(string型)
@@ -117,7 +115,7 @@ class GachaBase extends OutPut
 		}
 		return false;
 	}
-	
+
 	//////////////////////////////////////////
 	//ノーマルガチャを行う際のデータを読み込む処理
 	//////////////////////////////////////////
@@ -126,7 +124,7 @@ class GachaBase extends OutPut
 		$nCharacters = FileRead("Info/NCharacters.txt",",");
 		$this->emmisionCharacters->SetNormalCharacteres($nCharacters);
 	}
-	
+
 	/////////////////////////////////////////
 	//ノーマルガチャを行う際のデータを読み込む処理
 	/////////////////////////////////////////
@@ -139,17 +137,25 @@ class GachaBase extends OutPut
 		 $this->emmisionCharacters->SetSuperRareCharacters($srCharacters);
 		 $this->emmisionCharacters->SetSuperRareCharacters($ssrCharacters);
 	}
-	
-	protected function GetLimit()
+
+	protected function GetLimit($rate)
 	{
-		return $this->gachaLimit;
+		switch($rate)
+		{
+			case 1:
+			return $this->post->GetUseNormalTicket();
+			case 2:
+			return $this->post->GetUseSpecalTicket();
+			break;
+		}
+		return 0;
 	}
-	
+
 	protected function GetEmmisionCharacters()
 	{
 		return $this->emmisionCharacters;
 	}
-	
+
 	protected function GetOutPut()
 	{
 		return $this->output;
@@ -160,64 +166,35 @@ class GachaBase extends OutPut
 		$this->output = $set;
 	}
 
-	protected function GetRateArray()
-	{
-		return $this->rateArray;
-	}
-
-	protected function GetMysqli()
-	{
-		return $this->mysqli;
-	}
-
 	protected function PushEmmisonCharacter($push)
 	{
 			$this->emmisionArray[] = $push;
 	}
 
-	/*
-	private function EmmishionCharacter()
-	{
-		global $apiMySQL;
-		$rateMaxCount;
-		$ran;
-		$limit = $this->post->GetGachaLimit();
-		$limit = intval($limit);
-		for($count = 0; $count < $limit; $count++)
-		{
-			$rateMaxCount = count($this->rateArray);
-			$ran = rand(0,$rateMaxCount);
-			$this->emmisionArray[] = $this->rateArray[$ran];
-		}
-		$this->outPutData = $this->rateArray[$ran];
-		$this->emmisionCharacter = $this->rateArray[$ran];
-		$this->GetUserDictionary();
-	}
-	*/
-	
+
 	protected function GetUserDictionary()
 	{
 		$param = new RequestGetUserDictionary();
 		$param->userId = $this->post->GetUserId();
-		$response = $this->api->RequestGetUserDictionary($param,$this->mysqli);
-		$this->UpdateEmmiision($response);	
+		$response = $this->api->RequestGetUserDictionary($param);
+		$this->UpdateEmmiision($response);
 	}
-	
+
 	private function GetDictionary()
 	{
 		$param = new RequestGetUserDictionary();
 		$param->userId = $this->post->GetUserId();
-		$response = $this->api->RequestGetUserDictionary($param,$this->mysqli);		
+		$response = $this->api->RequestGetUserDictionary($param);
 		return $response;
 	}
-	
+
 	protected function UpdateEmmiision($response)
 	{
 		$response = $this->SortUpdateEmmision($response);
 		$param = new RequestUpdateEmmisionCharacter();
 		$param->userId = $response->userId;
 		$param->getNumbers = $response->getNumbers;
-		$this->api->RequestUpdateEmmisionCharacter($param,$this->mysqli);
+		$this->api->RequestUpdateEmmisionCharacter($param);
 	}
 
 	private function SortUpdateEmmision($response)
@@ -249,12 +226,12 @@ class GachaBase extends OutPut
 		return $response;
 	}
 
-	
+
 	private function GetGachaTicket()
-	{		
+	{
 		$param = new RequestGetGachaTicket();
 		$param->userId = $this->post->GetUserId();
-		$response = $this->api->RequestGetGachaTicket($param,$this->mysqli);
+		$response = $this->api->RequestGetGachaTicket($param);
 		return $response;
 	}
 }

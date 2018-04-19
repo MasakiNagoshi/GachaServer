@@ -14,6 +14,11 @@ class PostProtocol
 	
 	function __construct()
 	{
+		$this->ReadData();
+	}
+	
+	private function ReadData()
+	{
 		global $postProtocol; 
 		$postProtocol = $this;
 		$this->gachaRate = $_POST["rate"];
@@ -21,7 +26,7 @@ class PostProtocol
 		$this->userId = $_POST["id"];
 		$this->getRequest = $_POST["getrequest"];
 		$this->useNormalTicket = intval($_POST["usenormal"]);
-		$this->useSpecalTicket = intval($_POST["usespecal"]);
+		$this->useSpecalTicket = intval($_POST["usespecal"]);		
 	}
 	
 	function GetUseNormalTicket()

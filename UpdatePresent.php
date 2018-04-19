@@ -9,16 +9,15 @@ class UpdatePresent
 		private $loginCount;//int型
 		private $present;//配列string型
 		private $api;//APIMySQLクラス
-		private $mysqli;//mysqliオブジェクト型
 		private $post;//PostProtocolクラス型
 		
-		function __construct($presentnumber,$logincount,$mysqliobj)
+		function __construct($presentnumber,$logincount)
 		{
-			$this->Ini($presentnumber,$logincount,$mysqliobj);
+			$this->Ini($presentnumber,$logincount);
 			$this->Update();
 		}
 		
-		private function Ini($presentnumber,$logincount,$mysqliobj)
+		private function Ini($presentnumber,$logincount)
 		{
 			global $apiMySQL;
 			global $postProtocol;
@@ -26,7 +25,6 @@ class UpdatePresent
 			$this->post = $postProtocol;
 			$this->loginCount = $logincount;
 			$this->present = $presentnumber;
-			$this->mysqli = $mysqliobj;			
 		}
 		
 		private function Update()
@@ -51,14 +49,14 @@ class UpdatePresent
 			$param->userId = $response->userId;
 			$param->normal = $response->normal;
 			$param->specal = $response->specal;
-			$this->api->RequestUpdateGachaTicket($param,$this->mysqli);
+			$this->api->RequestUpdateGachaTicket($param);
 		}
 		
 		private function GetTicket()
 		{
 			$param = new RequestGetGachaTicket();
 			$param->userId = $this->post->GetUserId();
-			$response = $this->api->RequestGetGachaTicket($param,$this->mysqli);
+			$response = $this->api->RequestGetGachaTicket($param);
 			return $response;
 		}		
 }

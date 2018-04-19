@@ -3,8 +3,8 @@
 //製作者　名越大樹
 //グローバル変数を管理するファイル
 ///////////////////////////////////
-
-$postProtocol;
-$apiMySQL;
+$errorCheck;//ErrorCheckクラス
+$postProtocol;//PostProtocolクラス
+$apiMySQL;//APIMySQLクラス
 
 ?>

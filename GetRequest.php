@@ -1,10 +1,13 @@
 <?php
+////////////////////////////////////
+//製作者　名越大樹
+//ユーザー情報を取得するクラス
+////////////////////////////////////
 
 class GetRequest extends OutPut
 {
 	private $api;//APIMySQLクラス
 	private $post;//PostProtocolクラス
-	private $mysqli;//mysqliオブジェクト型
 
 	function __construct()
 	{
@@ -18,9 +21,6 @@ class GetRequest extends OutPut
 		global $postProtocol;
 		$this->api = $apiMySQL;
 		$this->post = $postProtocol;
-		$mysqlInfo = MySQLSetting();
-		$mysqlInfo->SetTableName("GachaUser");
-		$this->mysqli = Connect($mysqlInfo->GetHostName(), $mysqlInfo->GetRoot(), $mysqlInfo->GetPassWord(), $mysqlInfo->GetDataBase());
 	}
 
 	private function Request()
@@ -46,7 +46,7 @@ class GetRequest extends OutPut
 	{
 		$param = new RequestGetUserDictionary();
 		$param->userId = $this->post->GetUserId();
-		$response = $this->api->RequestGetUserDictionary($param,$this->mysqli);
+		$response = $this->api->RequestGetUserDictionary($param);
 		$this->OutputDictionary($response);
 	}
 	
@@ -57,11 +57,11 @@ class GetRequest extends OutPut
 	{
 		$param = new RequestGetUserLogin();
 		$param->userId = $this->post->GetUserId();
-		$response = $this->api->RequestGetUserLogin($param,$this->mysqli);
+		$response = $this->api->RequestGetUserLogin($param);
 		if($response->isLogin == false)			
 		{
 			$present = $this->LoginPresent($response);
-			$updatepresent = new UpdatePresent($present->GetPresent(),$response->loginCount,$this->mysqli);
+			$updatepresent = new UpdatePresent($present->GetPresent(),$response->loginCount);
 			$this->UpdateLogin($response->loginCount);
 			$this->OutputLoginPresent($response,$present->GetPresent());
 		}
@@ -84,7 +84,7 @@ class GetRequest extends OutPut
 		{
 			$param->loginCount = 0;
 		}
-		$this->api->RequestUpdateGachaLogin($param,$this->mysqli);
+		$this->api->RequestUpdateGachaLogin($param);
 	}
 
 	///////////////////////////////////////////
@@ -94,7 +94,7 @@ class GetRequest extends OutPut
 	{
 		$param = new RequestGetGachaTicket();
 		$param->userId = $this->post->GetUserId();
-		$response = $this->api->RequestGetGachaTicket($param,$this->mysqli);
+		$response = $this->api->RequestGetGachaTicket($param);
 		$this->OutputTicket($response);
 	}
 	

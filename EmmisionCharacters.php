@@ -6,10 +6,10 @@
 
 class EmmisionCharacters
 {
-	private $nCharacters;
-	private $rCharacters;
-	private $srCharacters;
-	private $ssrCharacters;
+	private $nCharacters;//排出候補のノーマルキャラクター達(配列string型)
+	private $rCharacters;//排出候補のレアキャラクター達(配列string型)
+	private $srCharacters;//排出候補のスーパーレアキャラクター達(配列string型)
+	private $ssrCharacters;//排出候補の超レアキャラクター達(配列string型)
 
 	public function SetNormalCharacteres($set)
 	{

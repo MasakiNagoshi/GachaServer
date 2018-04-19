@@ -43,21 +43,4 @@ function Connect($host, $root, $pass, $database)
 	return $mysql;
 }
 
-////////////////////////////////////////
-//MySQLの実行に関する処理
-//$mysqli = mysqliオブジェクト型
-//$sql = SQL文
-//返り値　Queryの実行結果
-////////////////////////////////////////
-function QueryExecute($mysqli, $sql)
-{
-	if($result = $mysqli->query($sql))
-	{
-		return $result;
-	}
-	else
-	{
-		return $mysqli->error;
-	}
-}
 ?>

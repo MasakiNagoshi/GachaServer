@@ -11,11 +11,11 @@ class SpecalGacha extends GachaBase
 
 	private function EmmisionCharacter()
 	{
-		$limit = $this->GetLimit();
+		$limit = $this->GetLimit($this->status);
 		$emmison = $this->GetEmmisionCharacters();
 		for($count = 0; $count < $limit;$count++)
 		{
-		
+
 			$ran = rand(0,100);
 			$emmisionCharacters;
 			$rate;
@@ -24,13 +24,13 @@ class SpecalGacha extends GachaBase
 				$emmisionCharacters = $emmison->GetRareCharacters();
 				$rate = 1;
 			}
-		
+
 			else if($ran >= 6 && $ran <= 29)
 			{
 				$emmisionCharacters = $emmison->GetSuperRareCharacters();
 				$rate = 2;
 			}
-		
+
 			else if($ran >= 0 && $ran <= 5)
 			{
 				$emmisionCharacters = $emmison->GetSuperSuperRareCharacters();
@@ -54,7 +54,7 @@ class SpecalGacha extends GachaBase
 		}
 		else
 		{
-			$duplication = "0";			
+			$duplication = "0";
 		}
 		switch($rate)
 		{

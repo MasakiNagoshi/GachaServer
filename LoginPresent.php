@@ -13,10 +13,10 @@ class LoginPresent
 	///////////////////////
 	function __construct($count)
 	{
-		$this->Present($count);
+		$this->ReadPresent($count);
 	}
 	
-	private function Present($count)
+	private function ReadPresent($count)
 	{
 		$presents = FileRead("Info/LoginPresents.txt","/");
 		$this->present = $presents[$count];

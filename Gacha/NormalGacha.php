@@ -13,13 +13,13 @@ class NormalGacha extends GachaBase
 		parent::__construct($this->status);
 		$this->EmmisionCharacter();
 	}
-	
+
 	//////////////////////////////////////
 	//キャラクターを排出する処理
 	//////////////////////////////////////
 	private function EmmisionCharacter()
 	{
-		$limit = $this->GetLimit();
+		$limit = $this->GetLimit($this->status);
 		$emmision = $this->GetEmmisionCharacters();
 		$emmisionCharacters = $emmision->GetNormalCharacters();
 		$rateMaxCount = count($emmisionCharacters);

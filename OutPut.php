@@ -3,11 +3,13 @@
 //製作者　名越大樹
 //出力に関するクラス
 /////////////////////////////////////////////
+
 class OutPut
 {
-	///////////////////////////////////
+	////////////////////////////////////////
 	//図鑑情報を出力する処理
-	///////////////////////////////////
+	//param = ユーザーの取得している図鑑(string型)
+	////////////////////////////////////////
 	protected function OutputDictionary($param)
 	{
 		$output = "6,".$param->getNumbers;
@@ -16,6 +18,7 @@ class OutPut
 	
 	//////////////////////////////////////
 	//ログインの情報を出力する処理
+	//$param = ログイン情報(bool型)
 	//////////////////////////////////////
 	protected function OutputLogin($param)
 	{
@@ -25,6 +28,8 @@ class OutPut
 	
 	///////////////////////////////////////
 	//ログインプレゼントを出力関する処理
+	//$param = ログイン情報(bool型)
+	//$present = プレゼント内容(string型)
 	///////////////////////////////////////
 	protected function OutputLoginPresent($param,$present)
 	{
@@ -40,6 +45,12 @@ class OutPut
 		echo "5,". "n" .":" .$param->normal ."," . "s" . ":" . $param->specal;
 	}
 	
+	//////////////////////////////////
+	//排出したキャラクターを出力する処理
+	//$emmision = 排出キャラクターの番号(string型)
+	//$rate = 排出キャラクターのレート（string型）
+	//$duplication = 重複しているかどうか(string型)
+	//////////////////////////////////
 	protected function OutputGacha($emmision,$rate,$duplication)
 	{
 		$output =  $emmision . ":" . $rate . ":" . $duplication. ",";
