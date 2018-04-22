@@ -25,13 +25,13 @@ class SpecalGacha extends GachaBase
 				$rate = 1;
 			}
 
-			else if($ran >= 6 && $ran <= 29)
+			else if($ran >= 2 && $ran <= 29)
 			{
 				$emmisionCharacters = $emmison->GetSuperRareCharacters();
 				$rate = 2;
 			}
 
-			else if($ran >= 0 && $ran <= 5)
+			else if($ran >= 0 && $ran <= 1)
 			{
 				$emmisionCharacters = $emmison->GetSuperSuperRareCharacters();
 				$rate = 3;

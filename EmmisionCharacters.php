@@ -40,6 +40,7 @@ class EmmisionCharacters
 	{
 		return $this->srCharacters;
 	}
+	
 	public function SetSuperSuperRareCharacters($set)
 	{
 		 $this->ssrCharacters = $set;

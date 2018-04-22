@@ -1,8 +1,4 @@
 <?php
-require_once("MySQLSetting.php");
-require_once("APIServer.php");
-require_once("Protocol.php");
-
 
 class CreateUser
 {
@@ -21,9 +17,6 @@ class CreateUser
 	private function Ini()
 	{
 		global $apiMySQL;
-		$mysqlinfo = MySQLSetting();
-		$mysqlinfo->SetTableName("GachaUser");
-		$this->mysqli = Connect($mysqlinfo->GetHostName(), $mysqlinfo->GetRoot(), $mysqlinfo->GetPassWord(), $mysqlinfo->GetDataBase());
 		$this->api = $apiMySQL;		
 	}
 	
@@ -45,7 +38,7 @@ class CreateUser
 	{
 		$param = new RequestInsertGachaTicket();	
 		$param->userId = $this->createid;
-		$this->api->RequestInsertGachaTicket($param,$this->mysqli);
+		$this->api->RequestInsertGachaTicket($param);
 	}
 	
 	///////////////////////////////////
@@ -55,7 +48,7 @@ class CreateUser
 	{
 		$param = new RequestInsertGachaLogin();
 		$param->userId = $this->createid;
-		$this->api->RequestInsertGachaLogin($param,$this->mysqli);
+		$this->api->RequestInsertGachaLogin($param);
 	}
 	
 	//////////////////////////////////////
@@ -67,7 +60,7 @@ class CreateUser
 		$param = new RequestInsertUserId();
 		$param->userId = $this->createid;
 		$param->userName = $_POST["name"];
-		$this->api->RequestInsertUserId($param,$this->mysqli);
+		$this->api->RequestInsertUserId($param);
 	}
 
 }

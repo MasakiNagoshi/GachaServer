@@ -11,6 +11,7 @@ class RequestManager
 	{
 		if($_POST["status"] == "0")
 		{
+			require_once("GetRequestReadFile.php");
 			require_once("CreateUserId.php");
 			$user = new CreateUser();
 		}

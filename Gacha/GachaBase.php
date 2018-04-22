@@ -130,12 +130,12 @@ class GachaBase extends OutPut
 	/////////////////////////////////////////
 	private function ReadSpecalGacha()
 	{
-		 $rCharacters = FileRead("Info/RCharacters.txt",",");
-		 $srCharacters = FileRead("Info/SRCharacteres.txt",",");
-		 $ssrCharacters = FileRead("Info/SSRCharacteres.txt",",");
+		 $rCharacters = FileRead("Info/RareCharacters.txt",",");
+		 $srCharacters = FileRead("Info/SRCharacters.txt",",");
+		 $ssrCharacters = FileRead("Info/SSRCharacters.txt",",");
 		 $this->emmisionCharacters->SetRareCharacters($rCharacters);
 		 $this->emmisionCharacters->SetSuperRareCharacters($srCharacters);
-		 $this->emmisionCharacters->SetSuperRareCharacters($ssrCharacters);
+		 $this->emmisionCharacters->SetSuperSuperRareCharacters($ssrCharacters);
 	}
 
 	protected function GetLimit($rate)
