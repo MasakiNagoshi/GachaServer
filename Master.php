@@ -16,8 +16,8 @@ class Master
 		private function IniCreateClass()
 		{
 			$api = new APIMySQL();
-			$post = new PostProtocol();
 			$error = new ErrorCheck();
+			$post = new PostProtocol();
 		}
 		
 }
