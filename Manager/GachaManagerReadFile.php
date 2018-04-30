@@ -1,8 +1,8 @@
 <?php
-require_once("GachaBase.php");
-require_once("NormalGacha.php");
+require_once("GachaRate/GachaBase.php");
 require_once("ReadFile.php");
-require_once("Protocol.php");
-require_once("EmmisionCharacters.php");
-require_once("SpecalGacha.php");
+require_once("Protocol/Protocol.php");
+require_once("EmmisionCharacters/EmmisionCharacters.php");
+require_once("GachaRate/NormalGacha.php");
+require_once("GachaRate/SpecalGacha.php");
 ?>

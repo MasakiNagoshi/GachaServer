@@ -11,14 +11,14 @@ class RequestManager
 	{
 		if($_POST["status"] == "0")
 		{
-			require_once("Request/GetRequestReadFile.php");
-			require_once("Request/CreateUserId.php");
+			require_once("GetRequestReadFile.php");
+			require_once("CreateUserId.php");
 			$user = new CreateUser();
 		}
 
 		else if($_POST["status"] == "1")
 		{
-			require_once("Request/GetRequestReadFile.php");
+			require_once("GetRequestReadFile.php");
 			$test = new GetRequest();
 		}
 
@@ -28,7 +28,7 @@ class RequestManager
 		}
 		else
 		{
-			require_once("Manager/GachaManager.php");
+			require_once("GachaManager.php");
 			$gacha = new GachaManager();
 		}
 	}

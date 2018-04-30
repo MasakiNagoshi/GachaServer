@@ -13,14 +13,14 @@ class PostProtocol
 	private $useSpecalTicket;//使用したスペシャルチケット数(string型)
 	private $errorCheck;
 	function __construct()
-	{		
+	{
 		$this->ReadData();
 	}
 
 	private function ReadData()
 	{
-		require_once("PostErrorCheck.php");
-		$this->errorCheck = new PostErrorCheck();		
+		require_once("Protcol/PostErrorCheck.php");
+		$this->errorCheck = new PostErrorCheck();
 		$this->gachaLimit = intval($_POST["limit"]);
 		$this->getRequest = $_POST["getrequest"];
 		$this->useNormalTicket = intval($_POST["usenormal"]);
@@ -30,7 +30,7 @@ class PostProtocol
 		global $postProtocol;
 		$postProtocol = $this;
 	}
-	
+
 	private function CheckUserId()
 	{
 		$this->userId = $this->errorCheck->CheckUserId($_POST["id"]);
@@ -38,7 +38,7 @@ class PostProtocol
 
 	private function CheckGachaRate()
 	{
-		$this->gachaRate = $this->errorCheck->CheckGachaRate($_POST["rate"]);		
+		$this->gachaRate = $this->errorCheck->CheckGachaRate($_POST["rate"]);
 	}
 
 	function GetUseNormalTicket()

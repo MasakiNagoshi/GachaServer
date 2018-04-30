@@ -1,22 +1,18 @@
 <?php
-//////////////////////////////////
-//ï¿½ï¿½ï¿½ï¿½ï¿½Ò@ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½
-//ï¿½Kï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
-//////////////////////////////////
-
+require_once("GachaManagerReadFile.php");
 class GachaManager
 {
 	function __construct()
 	{
-		require_once("Manager/GachaManagerReadFile.php");
 		global $postProtocol;
 		$api = new APIMySQL();
 		$rate = $postProtocol->GetGachaRate();
+//		$status = "1";
 		echo"2,";
 
 		switch($rate)
 		{
-			case "normal"://ï¿½mï¿½[ï¿½}ï¿½ï¿½ï¿½Kï¿½`ï¿½ï¿½
+			case "normal"://ƒm[ƒ}ƒ‹ƒKƒ`ƒƒ
 			$gacha = new NormalGacha();
 			break;
 			case "specal":

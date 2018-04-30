@@ -4,21 +4,21 @@
 //全体を管理するクラス
 ///////////////////////////////////
 
-class Master 
+class Master
 {
 		function __construct()
 		{
 			$this->IniCreateClass();
-			require_once("RequestManager.php");
+			require_once("Manager/RequestManager.php");
 			$manager = new RequestManager();
 		}
-		
+
 		private function IniCreateClass()
 		{
 			$api = new APIMySQL();
 			$error = new ErrorCheck();
 			$post = new PostProtocol();
 		}
-		
+
 }
 ?>
