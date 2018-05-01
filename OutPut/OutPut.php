@@ -56,5 +56,11 @@ class OutPut
 		$output =  $emmision . ":" . $rate . ":" . $duplication. ",";
 		echo $output;
 	}
+	
+	protected function OutputCreateUser($createid,$username)
+	{
+		$output = "0," .$createid . "," . $username;
+		echo$output;
+	}
 }
 ?>

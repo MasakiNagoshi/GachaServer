@@ -8,7 +8,10 @@ class GetRequest extends OutPut
 {
 	private $api;//APIMySQLクラス
 	private $post;//PostProtocolクラス
-
+	const GET_LOGIN = "login";
+	const GET_DICTIONARY = "dictionary";
+	const GET_TICKET = "ticket";
+	
 	function __construct()
 	{
 		$this->Ini();
@@ -27,13 +30,13 @@ class GetRequest extends OutPut
 	{
 		switch($this->post->GetRequest())
 		{
-			case "login":
+			case self::GET_LOGIN:
 			$this->GetLogin();
 			break;
-			case "dictionary":
+			case self::GET_DICTIONARY:
 			$this->GetUserDictionary();
 			break;
-			case "ticket":
+			case self::GET_TICKET:
 			$this->GetTicket();
 			break;
 		}

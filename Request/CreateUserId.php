@@ -1,17 +1,22 @@
 <?php
+///////////////////////////////////////////
+//制作者 名越大樹
+//新規ユーザーを作成するクラス
+///////////////////////////////////////////
 
-class CreateUser
+class CreateUser extends OutPut
 {
 	private $mysqli;//mysqliオブジェクト型
 	private $api;//APIMySQLクラス
 	private $createid;//新規ユーザーのID(string型)
-	
+	private $postProtocol;
 	function __construct()
 	{
 		$this->Ini();
 		$this->InsertUser();
-		$output = "0," .$this->createid . "," . $_POST["name"];
-		echo$output;
+		global $postProtocol;
+		$this->postProtocol = $postProtocol;
+		$this->OutputCreateUser($this->createid,$this->postProtocol->GetUserName());
 	}
 	
 	private function Ini()
