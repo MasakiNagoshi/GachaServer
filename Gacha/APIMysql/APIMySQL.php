@@ -6,7 +6,8 @@
 
 class APIMySQL
 {
-	private $mysqliObj;
+	private $mysqliObj;//mysqliオブジェクト型
+
 	function __construct()
 	{
 		global $apiMySQL;
@@ -16,6 +17,9 @@ class APIMySQL
 		$this->mysqliObj = $this->Connect($mysqlinfo->GetHostName(), $mysqlinfo->GetRoot(), $mysqlinfo->GetPassWord(), $mysqlinfo->GetDataBase());
 	}
 
+	/////////////////////////////////////////////////////////
+	//Mysqlの設定に関するクラス
+	/////////////////////////////////////////////////////////
 	private function MySQLSetting()
 	{
 		require_once("Common.php");
@@ -50,8 +54,6 @@ class APIMySQL
 		}
 		return $mysql;
 	}
-
-
 
 	/////////////////////////////////////////////////
 	//排出したキャラクターの更新をする処理
@@ -168,16 +170,9 @@ class APIMySQL
 		$result = $this->QueryExecute($sql);
 	}
 
-	//////////////////////////////////////////////
-	//////////////////////////////////////////////
-	function ResetLogin()
-	{
-		$sql = "UPDATE GachaLogin SET islogin = false";
-		$result = $this->QueryExecute($sql);
-	}
-
 	///////////////////////////////////
 	//SQLを実行する処理
+	//$sql = SQL(string型)
 	///////////////////////////////////
 	function QueryExecute($sql)
 	{

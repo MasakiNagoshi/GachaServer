@@ -7,7 +7,7 @@
 require_once("GlobalVariable/GlobalVariable.php");//一番最初に読み込ませる
 require_once("ReadFile.php");
 require_once("ErrorCheck/ErrorCheck.php");
-require_once("APIMySQL/APIServer.php");
+require_once("APIMySQL/APIMySQL.php");
 require_once("Protocol/PostProtocol.php");
 require_once("Master/Master.php");
 ?>

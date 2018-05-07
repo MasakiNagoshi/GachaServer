@@ -21,7 +21,7 @@ class PostProtocol
 	const USER_NAME = "name";
 	const GACHA_RATE = "rate";
 	const GET_REQUEST = "getrequest";
-	
+
 	function __construct()
 	{
 		$this->ReadData();
@@ -32,8 +32,7 @@ class PostProtocol
 		require_once("Protocol/PostErrorCheck.php");
 		$this->errorCheck = new PostErrorCheck();
 		$this->getRequest = $_POST[self::GET_REQUEST];
-		$this->useNormalTicket = intval($_POST[self::USE_NORMAL_GACHATICKET]);
-		$this->useSpecalTicket = intval($_POST[self::USE_SPECAL_GACHATICKET]);
+		$this->CheckUseTicket();
 		$this->CheckGachaRate();
 		$this->CheckUserId();
 		$this->CheckLimit();
@@ -41,12 +40,18 @@ class PostProtocol
 		global $postProtocol;
 		$postProtocol = $this;
 	}
-	
+
+	private function CheckUseTicket()
+	{
+		$this->useNormalTicket = $this->errorCheck->CheckUseTicket($_POST[self::USE_NORMAL_GACHATICKET]);
+		$this->useSpecalTicket = $this->errorCheck->CheckUseTicket($_POST[self::USE_SPECAL_GACHATICKET]);
+	}
+
 	private function CheckUserName()
 	{
-		$this->userName = $this->errorCheck->CheckUserName($_POST[self::USER_NAME]);		
+		$this->userName = $this->errorCheck->CheckUserName($_POST[self::USER_NAME]);
 	}
-	
+
 	private function CheckLimit()
 	{
 		$this->gachaLimit = $this->errorCheck->CheckLimit($_POST[self::LIMIT]);
@@ -61,7 +66,7 @@ class PostProtocol
 	{
 		$this->gachaRate = $this->errorCheck->CheckGachaRate($_POST[self::GACHA_RATE]);
 	}
-	
+
 	function GetUserName()
 	{
 		return $this->userName;

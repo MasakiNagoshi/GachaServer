@@ -1,8 +1,8 @@
 <?php
-////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 //制作者　名越大樹
-//POSTに送信されたデータのエラーチェックを確認するクラス
-////////////////////////////////////////////
+//POST(データベースに使用する)データのエラーチェックを確認するクラス(SQLインジェクション対策)
+/////////////////////////////////////////////////////////////////////////////////////////
 
 class PostErrorCheck
 {
@@ -39,11 +39,22 @@ class PostErrorCheck
 		$intLimit = intval($escapeLimit);
 		return $intLimit;
 	}
-	
+
 	function CheckUserName($name)
 	{
 		$escapeName = htmlspecialchars($name);
 		return $escapeName;
+	}
+
+	function CheckUseTicket($ticket)
+	{
+		$escapeTicket = htmlspecialchars($ticket);
+		$intTicket = intval($escapeTicket);
+		if($intTicket >= 0 && $intTicket <= 10)
+		{
+			return $intTicket;
+		}
+		return NULL;
 	}
 }
 ?>
