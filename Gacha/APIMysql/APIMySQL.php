@@ -7,6 +7,8 @@
 class APIMySQL
 {
 	private $mysqliObj;//mysqliオブジェクト型
+	const INI_NORMAL_TICKET = 1000;
+	const INI_SPECAL_TICKET = 1000;
 
 	function __construct()
 	{
@@ -94,7 +96,9 @@ class APIMySQL
 	//////////////////////////////////////////////////
 	function RequestInsertGachaTicket($param)
 	{
-		$sql = "INSERT INTO GachaTicket(id,normal,specal) VALUES('$param->userId',0,0)";
+		$normal = self::INI_NORMAL_TICKET;
+		$specal = self::INI_SPECAL_TICKET;
+		$sql = "INSERT INTO GachaTicket(id,normal,specal) VALUES('$param->userId','$normal','$specal')";
 		$result = $this->QueryExecute($sql);
 	}
 
